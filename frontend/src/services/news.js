@@ -1,0 +1,7 @@
+import api from './api';
+
+export const getNews = (settlement) => api.get(`/news?settlement=${settlement}`);
+export const getNewsItem = (id) => api.get(`/news/${id}`);
+export const createNews = (data) => api.post('/news', data);
+export const updateNews = (id, data) => api.put(`/news/${id}`, data);
+export const deleteNews = (id) => api.delete(`/news/${id}`);
