@@ -12,12 +12,14 @@ const Header = ({ settlement, onSettlementChange }) => {
     navigate('/login');
   };
 
+  const themeClass = settlement === 'zapovednoe' ? 'theme-zapovednoe' : 'theme-kolosok';
+
   return (
-    <header>
+    <header className={themeClass}>
       <div className="container header-container">
         <div className="logo">
-          <h1>ДПК Заповедное & Колосок</h1>
-          <p>Ваши дачные посёлки</p>
+          <h1>ДПК {settlement === 'zapovednoe' ? 'Заповедное' : 'Колосок'}</h1>
+          <p>Ваш дачный посёлок</p>
         </div>
         <nav>
           <ul>

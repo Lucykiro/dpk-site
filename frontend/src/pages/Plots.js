@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { getPlots } from '../services/plots';
+import { getSEOTags } from '../utils/seo';
 
 const Plots = () => {
   const { settlement } = useOutletContext();
   const [plots, setPlots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({ minArea: '', maxArea: '', minPrice: '', maxPrice: '', status: '' });
+  const seo = getSEOTags(settlement, 'Участки', `Каталог земельных участков в посёлке ${settlement === 'zapovednoe' ? 'Заповедное' : 'Колосок'}. Площадь, цена, статус.`, 'участки, земля, дача, продажа участков');
 
   useEffect(() => {
     fetchPlots();
@@ -49,37 +52,58 @@ const Plots = () => {
   if (loading) return <div>Загрузка...</div>;
 
   return (
-    <div>
-      <h2>Участки в посёлке {settlement === 'zapovednoe' ? 'Заповедное' : 'Колосок'}</h2>
-      <div className="card">
-        <h3>Фильтры</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px,1fr))', gap: '10px' }}>
-          <input type="number" name="minArea" placeholder="Площадь от (сотки)" value={filters.minArea} onChange={handleFilterChange} />
-          <input type="number" name="maxArea" placeholder="Площадь до (сотки)" value={filters.maxArea} onChange={handleFilterChange} />
-          <input type="number" name="minPrice" placeholder="Цена от (₽)" value={filters.minPrice} onChange={handleFilterChange} />
-          <input type="number" name="maxPrice" placeholder="Цена до (₽)" value={filters.maxPrice} onChange={handleFilterChange} />
-          <select name="status" value={filters.status} onChange={handleFilterChange}>
-            <option value="">Любой статус</option>
-            <option value="available">В продаже</option>
-            <option value="reserved">Забронирован</option>
-            <option value="sold">Продан</option>
-          </select>
-          <button onClick={resetFilters}>Сбросить</button>
+    <>
+      <Helmet>
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        <meta name="keywords" content={seo.keywords} />
+      </Helmet>
+      <div>
+        <h2>Участки в посёлке {settlement === 'zapovednoe' ? 'Заповедное' : 'Колосок'}</h2>
+        <div className="card">
+          <h3>Фильтры</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px,1fr))', gap: '10px' }}>
+            <input type="number" name="minArea" placeholder="Площадь от (сотки)" value={filters.minArea} onChange={handleFilterChange} />
+            <input type="number" name="maxArea" placeholder="Площадь до (сотки)" value={filters.maxArea} onChange={handleFilterChange} />
+            <input type="number" name="minPrice" placeholder="Цена от (₽)" value={filters.minPrice} onChange={handleFilterChange} />
+            <input type="number" name="maxPrice" placeholder="Цена до (₽)" value={filters.maxPrice} onChange={handleFilterChange} />
+            <select name="status" value={filters.status} onChange={handleFilterChange}>
+              <option value="">Любой статус</option>
+              <option value="available">В продаже</option>
+              <option value="reserved">Забронирован</option>
+              <option value="sold">Продан</option>
+            </select>
+            <button onClick={resetFilters}>Сбросить</button>
+          </div>
+        </div>
+        <div className="grid">
+          {plots.map(plot => (
+            <div key={plot.id} className="card">
+              <h3>Участок №{plot.number}</h3>
+              <p><strong>Площадь:</strong> {plot.area} сот.</p>
+              {plot.price && <p><strong>Цена:</strong> {plot.price.toLocaleString()} ₽</p>}
+              <p><strong>Статус:</strong> {getStatusText(plot.status)}</p>
+              {plot.description && <p>{plot.description}</p>}
+            </div>
+          ))}
+          {plots.length === 0 && <p>Участков не найдено.</p>}
+        </div>
+
+        <div className="card">
+          <h3>Карта участков</h3>
+          <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
+            <iframe 
+              src="https://yandex.ru/map-widget/v1/?ll=37.617,55.752&z=10" 
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+              frameBorder="0"
+              allowFullScreen
+              title="Карта посёлка"
+            />
+          </div>
+          <p className="small">* Интерактивная карта с отмеченными участками. Для точной интеграции требуется API-ключ Яндекс.Карт.</p>
         </div>
       </div>
-      <div className="grid">
-        {plots.map(plot => (
-          <div key={plot.id} className="card">
-            <h3>Участок №{plot.number}</h3>
-            <p><strong>Площадь:</strong> {plot.area} сот.</p>
-            {plot.price && <p><strong>Цена:</strong> {plot.price.toLocaleString()} ₽</p>}
-            <p><strong>Статус:</strong> {getStatusText(plot.status)}</p>
-            {plot.description && <p>{plot.description}</p>}
-          </div>
-        ))}
-        {plots.length === 0 && <p>Участков не найдено.</p>}
-      </div>
-    </div>
+    </>
   );
 };
 

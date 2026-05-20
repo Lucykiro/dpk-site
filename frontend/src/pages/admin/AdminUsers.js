@@ -3,7 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 
 const AdminUsers = () => {
-  const { user: currentUser } = useAuth();
+  const { user: currentUser, isAdmin } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingRole, setEditingRole] = useState(null);
@@ -15,7 +15,7 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await api.get('/admin/users'); // предположим, что эндпоинт /admin/users есть; если нет – создайте в бэкенде
+      const res = await api.get('/admin/users');
       setUsers(res.data);
     } catch (err) {
       console.error(err);
@@ -31,15 +31,20 @@ const AdminUsers = () => {
       alert('Роль обновлена');
       fetchUsers();
     } catch (err) {
-      alert('Ошибка обновления');
+      alert(err.response?.data?.message || 'Ошибка обновления');
     }
   };
 
   if (loading) return <div>Загрузка...</div>;
 
+  const roleOptions = isAdmin 
+    ? ['guest', 'resident', 'chairman', 'admin']
+    : ['guest', 'resident']; // председатель может назначать только жителя или гостя
+
   return (
     <div>
       <h2>Управление пользователями</h2>
+      <p>{!isAdmin && 'Вы можете менять роли только для жителей и гостей вашего посёлка.'}</p>
       <table>
         <thead>
           <tr><th>ID</th><th>ФИО</th><th>Email</th><th>Посёлок</th><th>Роль</th><th>Действия</th></tr>
@@ -58,10 +63,7 @@ const AdminUsers = () => {
                     setEditingRole(user.id);
                     setNewRole(e.target.value);
                   }}>
-                    <option value="guest">Гость</option>
-                    <option value="resident">Житель</option>
-                    <option value="chairman">Председатель</option>
-                    <option value="admin">Администратор</option>
+                    {roleOptions.map(role => <option key={role} value={role}>{role}</option>)}
                   </select>
                 )}
                 {editingRole === user.id && (
@@ -78,7 +80,6 @@ const AdminUsers = () => {
           ))}
         </tbody>
       </table>
-      <p className="small">* Для корректной работы создайте эндпоинты GET /admin/users и PUT /admin/users/:id/role в бэкенде.</p>
     </div>
   );
 };

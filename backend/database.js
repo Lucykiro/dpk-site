@@ -82,6 +82,18 @@ db.serialize(() => {
     )
   `);
 
+  // Таблица обратной связи
+  db.run(`
+    CREATE TABLE IF NOT EXISTS contacts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      message TEXT NOT NULL,
+      settlement TEXT NOT NULL CHECK(settlement IN ('zapovednoe', 'kolosok')),
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
   // Создание тестового администратора (если нет пользователей)
   db.get(`SELECT COUNT(*) as count FROM users`, (err, row) => {
     if (err) return console.error(err);

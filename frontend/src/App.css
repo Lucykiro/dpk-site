@@ -194,3 +194,33 @@ footer {
     margin-left: 0;
   }
 }
+
+/* Тема для Заповедное (зелёная) */
+.theme-zapovednoe header,
+.theme-zapovednoe footer {
+  background-color: #2c5f2d;
+}
+.theme-zapovednoe button:not(.danger) {
+  background-color: #2c5f2d;
+}
+.theme-zapovednoe button:not(.danger):hover {
+  background-color: #1e3a1f;
+}
+.theme-zapovednoe th {
+  background-color: #2c5f2d;
+}
+
+/* Тема для Колосок (синяя) */
+.theme-kolosok header,
+.theme-kolosok footer {
+  background-color: #1e3a5f;
+}
+.theme-kolosok button:not(.danger) {
+  background-color: #1e3a5f;
+}
+.theme-kolosok button:not(.danger):hover {
+  background-color: #0f2a44;
+}
+.theme-kolosok th {
+  background-color: #1e3a5f;
+}

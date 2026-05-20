@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://ваш-домен/zapovednoe</loc><priority>1.0</priority></url>
+  <url><loc>https://ваш-домен/zapovednoe/about</loc></url>
+  <url><loc>https://ваш-домен/zapovednoe/plots</loc></url>
+  <url><loc>https://ваш-домен/zapovednoe/infrastructure</loc></url>
+  <url><loc>https://ваш-домен/zapovednoe/gallery</loc></url>
+  <url><loc>https://ваш-домен/zapovednoe/documents</loc></url>
+  <url><loc>https://ваш-домен/zapovednoe/contacts</loc></url>
+  <url><loc>https://ваш-домен/zapovednoe/news</loc></url>
+  <url><loc>https://ваш-домен/kolosok</loc></url>
+  <url><loc>https://ваш-домен/kolosok/about</loc></url>
+  <url><loc>https://ваш-домен/kolosok/plots</loc></url>
+  <url><loc>https://ваш-домен/kolosok/infrastructure</loc></url>
+  <url><loc>https://ваш-домен/kolosok/gallery</loc></url>
+  <url><loc>https://ваш-домен/kolosok/documents</loc></url>
+  <url><loc>https://ваш-домен/kolosok/contacts</loc></url>
+  <url><loc>https://ваш-домен/kolosok/news</loc></url>
+</urlset>

@@ -32,6 +32,7 @@ app.use('/api/gallery', require('./routes/gallery'));
 app.use('/api/upload', require('./routes/upload'));
 app.use('/api/settlements', require('./routes/settlements'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/contacts', require('./routes/contacts'));
 
 // Обработка 404
 app.use((req, res) => {
