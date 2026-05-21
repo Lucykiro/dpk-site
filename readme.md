@@ -92,7 +92,7 @@
 ### 4.1 Клонирование репозитория
 
 ```bash
-git clone https://github.com/ваш-логин/dpk-site.git
+git clone https://github.com/lucykiro/dpk-site.git
 cd dpk-site
 ```
 
@@ -313,7 +313,7 @@ git add .
 git commit -m "Initial commit: full project"
 
 # Привязка к удалённому репозиторию GitHub
-git remote add origin https://github.com/ваш-логин/dpk-site.git
+git remote add origin https://github.com/lucykiro/dpk-site.git
 
 # Переименование ветки в main (если нужно)
 git branch -M main
